@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{{ vid }}</title>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <!-- <script type="text/javascript" src=".
+    ./javascript/jquery-1.11.0.min.js"/>-->
+
+    <script type="text/javascript" >
+        var bUrl = "";
+        function callAjax()
+        {
+            $.ajax({
+                type: 'GET',
+                url: bUrl,
+                dataType: 'jsonp',
+                success: function(data) {
+                    handleData(data);
+                }
+            });
+        }
+        function handleData(result){
+            var jso = result.result.views_live;
+            $("#live_views").html(jso);
+        }
+
+        var interval = setInterval(function(){callAjax()},5000);
+    </script>
+
+    <style>
+    *{
+        font-family:sans-serif;
+    }
+        h1#live_views{
+            font-size: 500px;
+            float:left;
+            margin:auto;
+            margin-bottom: -125px;
+            margin-top: -100px;
+        }
+        #container{width:75%;}
+        #withus{
+            width:100%;
+            clear:both;
+            margin:25px;
+            font-size:72px;
+        }
+   </style>
+</head>
+<body>
+
+{% if vid  %}
+    <div id = "container">
+    <h1 id="live_views"> {{ viewers }} </h1>
+    </div>
+    <div id ="withus">
+    {%  if viewers < 2 %}
+        <h3> Witness with us </h3>
+    {%  else %}
+        <h3> Witnesses with us </h3>
+    {%  endif %}
+    </div>
+{% endif %}
+
+{% if url %}
+    <script> bUrl = "{{ url }}"; </script>
+{%  endif %}
+
+
+</body>
+</html>

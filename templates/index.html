@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Witness With Us</title>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+
+</head>
+
+<script>
+    function createUrl(){
+        var vid = $(".url").val();
+        var host = $("input[name='host']:checked").val() 
+        var re = /\d+/;
+        var result = re.exec(vid);
+        var url = window.location.href+"counter?host="+host+"&id="+result;
+        $("#newurl").html("<a href='"+url+"'>"+url+"</a>")
+    }
+</script>
+<body>
+    <div class="main">
+        <img src="../static/_WITNESS_Logo-2000x1000.jpg" width="50%"; />
+    </div>
+<div class="content">
+    <p>Welcome to WitnessWith.Us, a tool to help remote witnesses be represented during protests or other mass actions. </p>
+    <p>Start live streaming with bambuser.com and paste the link here, then share with those marching with you.</p>
+    <p>(Pro-tip: Hold your phone in landscape for best results.)</p>
+    <p class = "top-info"> Step 1: Paste your broadcast link </p>
+    <textarea class="url">
+    
+    </textarea>
+    </br>
+    <div class = "radio">
+      <input type="radio" name="host" value="bambuser">Bambuser
+      <input type="radio" name="host" value="livestream">Livestream
+    </div>
+    </br>
+    Step 3: <button onclick="createUrl()"> Create Witness Display
+    </button>
+    <p class="step-3">Step 3: Heres your link to display remote witnesess </p>
+    <div id = "newurl"> </div>
+
+</div>
+</body>
+</html>
