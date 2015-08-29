@@ -1,21 +1,21 @@
 __author__ = 'wwidmer'
 
+import os
 import urllib2
 import json
+import conf
 
 
-# bambuser.com/broadcast/json?username=swillwodmer?api_key=asbdbahsdhsdjbasd
+api_key = conf.BAMBUSER_API_KEY
+username = conf.BAMBUSER_USERNAME
 
-api_key = "dcc4ffb5afd1e14049e8dda4c0d5b0c3"
-username = "swillwodmor"
-
-class BambConnector(object):
-    def __init__(self, username, v_id, api_key):
+class BambuserUtil(object):
+    def __init__(self, v_id):
         self.api_key = api_key
         self.user = username
-        self.v_id = v_id
+        self.v_id = str(v_id)
 
-    def getJsonData(self):
+    def get_all_json_data(self):
         request = self.getURL()
         try:
             response = urllib2.urlopen(request)
@@ -24,10 +24,11 @@ class BambConnector(object):
         except:
             return "ERROR REQUEST DENIED"
 
-    def getURL(self):
-        bamburl = "http://api.bambuser.com/"
+    def get_api_url(self):
+        bamburl = "http://api.bambuser.com"
         form = "broadcast"
         method = ".json"
-        params = ["?api_key="+self.api_key, "&limit=3"]
-        request = bamburl + form + "/" + str(self.v_id) + method + params[0] #+ params[1]
+        params = ["?api_key=" + self.api_key, "&limit=3"]
+        request = os.path.join(bamburl, form, self.v_id, method)
+        request += params
         return request

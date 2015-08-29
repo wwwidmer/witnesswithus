@@ -1,7 +1,7 @@
 import os
 import sys
 from flask import Flask, render_template, request
-from bamb import BambConnector
+from bamb import BambUserUtil
 
 
 app = Flask(__name__)
@@ -15,9 +15,8 @@ def getViewersByHost(host, vid):
     return 0
 
 def getUrlByHost(host, vid):
-    return ''
-
-
+    
+    
 @app.route('/counter', methods=['GET'])
 def counter():
     vid = request.args.get('vid') 
