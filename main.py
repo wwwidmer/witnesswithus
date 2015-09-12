@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request
-from bamb import BambUserUtil
 import conf
 
 
@@ -13,11 +12,12 @@ def hello_world():
 def getViewersByHost(host, vid):
     host_util_name = conf.ACCEPTED_HOSTS.get(host)
     if host_util_name:
-        views = 0
-        if host_util_name == 'BambUserUtil':
-            host_util = BambUserUtil(vid)
-            views = host_util.get_viewers()
-        return views
+        try:
+            host_module = __import__(host_util_name)
+            host_util = getattr(host_module, 'LoaderUtil')(vid)
+            return host_util.get_viewers()
+        except Exception as e:
+            print e
     else:
         return None
 
