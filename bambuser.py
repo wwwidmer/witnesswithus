@@ -10,7 +10,7 @@ api_key = conf.BAMBUSER_API_KEY
 username = conf.BAMBUSER_USERNAME
 # bambuser.com/broadcast/.json?username=username?api_key=asdasd
 
-class BambUserUtil(object):
+class LoaderUtil(object):
     def __init__(self, v_id):
         self.api_key = api_key
         self.user = username
