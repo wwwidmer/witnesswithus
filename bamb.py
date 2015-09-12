@@ -9,7 +9,7 @@ import conf
 api_key = conf.BAMBUSER_API_KEY
 username = conf.BAMBUSER_USERNAME
 
-class BambuserUtil(object):
+class BambUserUtil(object):
     def __init__(self, v_id):
         self.api_key = api_key
         self.user = username

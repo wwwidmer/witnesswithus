@@ -15,7 +15,7 @@ def getViewersByHost(host, vid):
     return 0
 
 def getUrlByHost(host, vid):
-    
+    pass
     
 @app.route('/counter', methods=['GET'])
 def counter():
