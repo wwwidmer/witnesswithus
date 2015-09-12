@@ -7,26 +7,28 @@
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 
     <script type="text/javascript" >
-        var bUrl = "";
-        function callAjax()
+
+        {% if url %}
+        var bUrl = "{{ url }}";
+        function call_api()
         {
             $.ajax({
                 type: 'GET',
                 url: bUrl,
                 dataType: 'jsonp',
                 success: function(data) {
-                    handleData(data);
+                    handle_data(data);
                 }
             });
         }
-        function handleData(result){
-            var jso = result.result.views_live;
-            $("#live_views").html(jso);
+        function handle_data(result){
+            var views_live = result.result.views_live;
+            $("#live_views").html(views_live);
         }
 
-        var interval = setInterval(function(){callAjax()},5000);
+        var interval = setInterval(function(){call_api()},5000);
+        {%  endif %}
     </script>
-
     <style>
     *{
         font-family:sans-serif;
@@ -39,7 +41,7 @@
             margin-top: -100px;
         }
         #container{width:75%;}
-        #withus{
+        #with_us{
             width:100%;
             clear:both;
             margin:25px;
@@ -48,12 +50,14 @@
    </style>
 </head>
 <body>
-
+{% if err %}
+<h1>{{ err }}</h1>
+{% endif %}
 {% if vid  %}
     <div id = "container">
     <h1 id="live_views"> {{ viewers }} </h1>
     </div>
-    <div id ="withus">
+    <div id ="with_us">
     {%  if viewers < 2 %}
         <h3> Witness with us </h3>
     {%  else %}
@@ -61,10 +65,6 @@
     {%  endif %}
     </div>
 {% endif %}
-
-{% if url %}
-    <script> bUrl = "{{ url }}"; </script>
-{%  endif %}
 
 
 </body>
