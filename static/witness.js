@@ -4,6 +4,7 @@
 $("button").on('click', function(){
     var url = $(".url").val();
     var split = url.replace(/.*?:\/\//g, "");
+    split = split.replace('www.', '');
     var host = split.split('/')[0];
     host = $.trim(host);
     if(host == 'meerkatapp.co'){
