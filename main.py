@@ -4,6 +4,7 @@ import conf
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def hello_world():
     return render_template("index.html")
@@ -21,6 +22,7 @@ def getViewersByHost(host, vid):
     else:
         return None
 
+
 def getUrlByHost(host, vid):
     host_util = conf.ACCEPTED_HOSTS.get(host)
     if host_util:
@@ -28,10 +30,11 @@ def getUrlByHost(host, vid):
     else:
         return None
 
+
 @app.route('/counter', methods=['GET'])
 def counter():
     err = ''
-    vid =  request.args.get('vid')
+    vid = request.args.get('vid') or request.args.get('user')
     host = request.args.get('host')
     size = request.args.get('size')
     viewers = getViewersByHost(host, vid)
