@@ -1,2 +1,5 @@
 1) connect to a page with a live stream
 2) get a particular livestreams viewer count
+
+
+https://graph.facebook.com/oauth/access_token?client_id=APP_ID&client_secret=APP_SECRET&grant_type=client_credentials
