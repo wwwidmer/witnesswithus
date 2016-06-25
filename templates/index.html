@@ -1,64 +1,43 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="">
-    <title>Witness With Us</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="../static/jumbtron-style.css"/>
-
-</head>
-
-<body>
-
+{% extends "base.html" %}
+{% block content %}
 <div class="container">
-      <div class="header clearfix">
-        <nav>
-          <ul class="nav nav-pills pull-right">
-            <li role="presentation" class="active"><a href="#">Home</a></li>
-            <li role="presentation"><a href="#">About</a></li>
-            <li role="presentation"><a href="#">Contact</a></li>
-          </ul>
-        </nav>
-        <h3 class="text-muted">WitnessWith.Us</h3>
-      </div>
+  <div class="header clearfix">
+    <nav>
+      <ul class="nav nav-pills pull-right">
+        <li role="presentation" class="active"><a href="#">Home</a></li>
+        <li role="presentation"><a href="#">About</a></li>
+        <li role="presentation"><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+    <h3 class="text-muted">WitnessWith.Us</h3>
+  </div>
+  
+  <div class="jumbotron">
+    <img src="../static/_WITNESS_Logo-2000x1000.jpg" width="100%" />
+  </div>
+  
+  <div class="row marketing">
+    <div class="col-lg-6">
+      <h1>Witness With us</h1>
+      <p>Welcome to WitnessWith.Us, a tool to help remote witnesses be represented during protests or other mass actions. </p>
+      <p>Start live streaming with a supported online service and paste the link here, then share with those marching with you.</p>
+      <p>(Pro-tip: Hold your phone in landscape for best results.)</p>
+    </div>
+    <div>
+      <h4>Step 1: Paste your broadcast link</h4>
+      <p>
+        <textarea class="url">
+        </textarea>
+      </p>
+      <button class='button' id="create-display"/>Create Display</button>
+<h4>Step 2: Heres your link to display remote witnesess </p></h4>
+<p id = 'newurl'></p>
+</div>
+<div>
+  <h4> For Facebook: </h4>
+  <a href="{{ url_for('facebook') }}">
+    <div class="btn btn-large btn-default">Click Here</div>
+  </a>
+</div>
 
-      <div class="jumbotron">
-          <img src="../static/_WITNESS_Logo-2000x1000.jpg" width="100%" />
-      </div>
-
-      <div class="row marketing">
-        <div class="col-lg-6">
-            <h1>Witness With us</h1>
-            <p>Welcome to WitnessWith.Us, a tool to help remote witnesses be represented during protests or other mass actions. </p>
-            <p>Start live streaming with a supported online service and paste the link here, then share with those marching with you.</p>
-            <p>(Pro-tip: Hold your phone in landscape for best results.)</p>
-        </div>
-          <div>
-              <h4>Step 1: Paste your broadcast link</h4>
-            <p>
-                <textarea class="url">
-                </textarea>
-            </p>
-              <button class='button' id="create-display"/>Create Display</button>
-              <h4>Step 2: Heres your link to display remote witnesess </p></h4>
-              <p id = 'newurl'></p>
-          </div>
-      </div>
-      <footer class="footer">
-        <p>&copy; 2015</p>
-      </footer>
-
-    </div> <!-- /container -->
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../static/witness.js"></script>
-</body>
-</html>
+{% endblock %}

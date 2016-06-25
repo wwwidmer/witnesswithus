@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request
 import conf
 
@@ -44,5 +45,16 @@ def counter():
     return render_template("video.html", size=size, vid=vid, viewers=viewers, url=getUrlByHost(host, vid), err=err)
 
 
+@app.route('/facebook', methods=['GET'])
+def facebook():
+    return render_template("facebook.html")
+
+
 if __name__ == '__main__':
-    app.run()
+    debug = os.environ.get('DEBUG', True)
+    if debug is False  and os.environ.get('PROD', False):
+        debug = False
+    app.run(threaded=True, debug=debug)
+
+
+    
