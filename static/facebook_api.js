@@ -2,12 +2,10 @@
 // Downloads and initializes FB
 // https://developers.facebook.com/docs/javascript/examples
 
-var app_id = '';
-
 (function () {
     window.fbAsyncInit = function() {
 	FB.init({
-	    appId      : app_id,
+	    appId      : facebook_app_id,
 	    xfbml      : true,
 	    version    : 'v2.6'
 	});

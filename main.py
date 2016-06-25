@@ -1,5 +1,11 @@
 import os
+import sys
+
 from flask import Flask, render_template, request
+
+sys.path.append(os.path.join('.', 'modules'))
+sys.path.append(os.path.join('.', 'setup'))
+
 import conf
 
 
@@ -14,12 +20,9 @@ def hello_world():
 def getViewersByHost(host, vid):
     host_util_name = conf.ACCEPTED_HOSTS.get(host)
     if host_util_name:
-        try:
-            host_module = __import__(host_util_name)
-            host_util = getattr(host_module, 'LoaderUtil')(vid)
-            return host_util.get_viewers()
-        except Exception as e:
-            print e
+        host_module = __import__(host_util_name)
+        host_util = getattr(host_module, 'LoaderUtil')(vid)
+        return host_util.get_viewers()
     else:
         return None
 
@@ -42,12 +45,17 @@ def counter():
     if viewers is None:
         err = 'Sorry, we can\t find this video at this host'
 
-    return render_template("video.html", size=size, vid=vid, viewers=viewers, url=getUrlByHost(host, vid), err=err)
+    return render_template(
+        "video.html", size=size, vid=vid, viewers=viewers, url=getUrlByHost(host, vid), err=err
+    )
 
 
 @app.route('/facebook', methods=['GET'])
 def facebook():
-    return render_template("facebook.html")
+    facebook_app_id = conf.FACEBOOK_APP_ID
+    return render_template(
+        "facebook.html", facebook_app_id=facebook_app_id
+    )
 
 
 if __name__ == '__main__':

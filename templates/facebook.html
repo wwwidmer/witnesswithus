@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block scripts %}
+<script>
+  var facebook_app_id = {{ facebook_app_id | tojson }};
+</script>
+
 <script src="{{ url_for('static', filename='facebook_api.js') }}"></script>
 
 {% endblock %}
