@@ -51,11 +51,14 @@ def counter():
 
 
 @app.route('/facebook', methods=['GET'])
-def facebook():
+@app.route('/facebook/{video_id}', methods=['GET'])
+def facebook(video_id=None):
     facebook_app_id = conf.FACEBOOK_APP_ID
-    return render_template(
-        "facebook.html", facebook_app_id=facebook_app_id
-    )
+    if video_id is None:
+        return render_template(
+            "facebook.html", facebook_app_id=facebook_app_id
+        )
+
 
 
 if __name__ == '__main__':
@@ -63,6 +66,3 @@ if __name__ == '__main__':
     if debug is False  and os.environ.get('PROD', False):
         debug = False
     app.run(threaded=True, debug=debug)
-
-
-    
