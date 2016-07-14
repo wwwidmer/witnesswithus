@@ -7,14 +7,13 @@
 
 <script src="{{ url_for('static', filename='facebook_api.js') }}"></script>
 <script>
-  $(document).ready(function(){
+  $(document).ready(function() {
       function getLiveVideo() {
           // Wait for FB to init (See facebook_api.js)
           if(typeof FB === 'undefined') {
             setTimeout(getLiveVideo, 500);
             return;
           }
-          var page;
           // Login and save access_token in case its needed later
           FB.login(function(resp) {
             if (resp.authResponse) {
@@ -25,28 +24,35 @@
                 });
                 // Get account's pages
                 FB.api('/me/accounts', function(resp) {
-                    if (resp.data.length)
-                        page = resp.data[0];
-                });
-                // Get pages most recent live video
-                var most_recent_video = {};
-                if (page) {
-                    FB.api('/{' + page.id + '}?fields=live_videos{live_views,total_views}', function(resp) {
-                        for (var i = 0; i < resp.data.length; i++) {
-                          var video = resp.data[i];
-                            if (video.timestamp > most_recent_video.timestamp) {
-                                most_recent_video = video;
-                            }
-                        }
-                    });
-                }
-                // Generate link to video
-                // /facebook/video
-
-            }
-        });
+                  console.log(resp);
+                    for (var i = 0; i < resp.data.length; i++) {
+                        var page = resp.data[i];
+                        var $page = $('<div>').text(page.name);
+                        $('.col-lg-6').append($page);
+                        $page.on('click', function(){
+                          // Get pages most recent live video
+                            var most_recent_video = {};
+                            FB.api('/' + page.id + '?fields=live_videos{live_views,total_views}', function(resp) {
+                                for (var i = 0; i < resp.data.length; i++) {
+                                  var video = resp.data[i];
+                                    if (video.timestamp > most_recent_video.timestamp) {
+                                        most_recent_video = video;
+                                    }
+                                }
+                                // Generate link to video
+                                // /facebook/video
+                                var url = '/facebook/' + user.id +'/' + most_recent_video.id;
+                                var a = $('<a>')[0];
+                                a.attr('href', url);
+                                a.text('Share this link for other witnesses.');
+                                $('.col-lg-6').append(a);
+                            });
+                        });
+                    }
+            });
+        }
+      });
     }
-
     getLiveVideo();
   });
 </script>

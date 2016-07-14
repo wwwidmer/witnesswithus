@@ -5,6 +5,7 @@
     <title>{{ vid }}</title>
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="{{ url_for('static', filename='facebook_api.js') }}"></script>
 
     <script type="text/javascript" >
 
@@ -28,6 +29,19 @@
 
         var interval = setInterval(function(){call_api()},5000);
         {%  endif %}
+
+        {% if facebook_video_id %}
+            var user_id = "{{ user_id | tojson }}";
+            var video_id = "{{ facebook_video_id | tojson }}";
+            function call_api() {
+                FB.api('/'+ video_id +'?fields=live_views', handle_data);
+            }
+            function handle_data(result) {
+                var views_live = result.views_live;
+                $("#live_views").html(views_live);
+            }
+            var interval = setInterval(call_api, 5000);
+        {% endif %}
     </script>
     <style>
     *{
@@ -65,7 +79,13 @@
     {%  endif %}
     </div>
 {% endif %}
-
-
+{% if facebook_video_id %}
+  <div id = "container">
+    <h1 id="live_views">  </h1>
+  </div>
+  <div id ="with_us">
+      <h3> Witnesses with us </h3>
+  </div>
+{% endif %}
 </body>
 </html>

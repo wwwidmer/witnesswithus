@@ -51,7 +51,6 @@ def counter():
 
 
 @app.route('/facebook', methods=['GET'])
-@app.route('/facebook/{video_id}', methods=['GET'])
 def facebook(video_id=None):
     facebook_app_id = conf.FACEBOOK_APP_ID
     if video_id is None:
@@ -59,6 +58,14 @@ def facebook(video_id=None):
             "facebook.html", facebook_app_id=facebook_app_id
         )
 
+
+@app.route('/facebook/<user_id>/<video_id>', methods=['GET'])
+def facebook_live_video(user_id, video_id):
+    err = None
+    # Call api once?
+    return render_template(
+        "video.html", user_id=user_id, facebook_video_id=video_id, viewers=0, err=err
+    )
 
 
 if __name__ == '__main__':
