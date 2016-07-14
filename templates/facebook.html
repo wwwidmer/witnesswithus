@@ -18,40 +18,40 @@
           FB.login(function(resp) {
             if (resp.authResponse) {
                 access_token = FB.getAuthResponse()['accessToken'];
-
                 FB.api('/me/', function(resp) {
                     user = resp;
-                });
-                // Get account's pages
-                FB.api('/me/accounts', function(resp) {
-                  console.log(resp);
-                    for (var i = 0; i < resp.data.length; i++) {
-                        var page = resp.data[i];
-                        var $page = $('<div>').text(page.name);
-                        $('.col-lg-6').append($page);
-                        $page.on('click', function(){
-                          // Get pages most recent live video
-                            var most_recent_video = {};
-                            FB.api('/' + page.id + '?fields=live_videos{live_views,total_views}', function(resp) {
-                                for (var i = 0; i < resp.data.length; i++) {
-                                  var video = resp.data[i];
-                                    if (video.timestamp > most_recent_video.timestamp) {
-                                        most_recent_video = video;
+                    // Get account's pages
+                    FB.api('/'+user.id+'/permissions', function(resp){console.log(resp)});
+                    FB.api('/'+user.id+'/accounts?access_token='+access_token, function(resp) {
+                        console.log(resp);
+                        for (var i = 0; i < resp.data.length; i++) {
+                            var page = resp.data[i];
+                            var $page = $('<div>').text(page.name);
+                            $('.col-lg-6').append($page);
+                            $page.on('click', function(){
+                                // Get pages most recent live video
+                                var most_recent_video = {};
+                                FB.api('/' + page.id + '?fields=live_videos{live_views,total_views}', function(resp) {
+                                    for (var i = 0; i < resp.data.length; i++) {
+                                      var video = resp.data[i];
+                                        if (video.timestamp > most_recent_video.timestamp) {
+                                            most_recent_video = video;
+                                        }
                                     }
-                                }
-                                // Generate link to video
-                                // /facebook/video
-                                var url = '/facebook/' + user.id +'/' + most_recent_video.id;
-                                var a = $('<a>')[0];
-                                a.attr('href', url);
-                                a.text('Share this link for other witnesses.');
-                                $('.col-lg-6').append(a);
+                                    // Generate link to video
+                                    // /facebook/video
+                                    var url = '/facebook/' + user.id +'/' + most_recent_video.id;
+                                    var a = $('<a>')[0];
+                                    a.attr('href', url);
+                                    a.text('Share this link for other witnesses.');
+                                    $('.col-lg-6').append(a);
+                                });
                             });
-                        });
-                    }
-            });
+                        }
+                });
+          });
         }
-      });
+      }, {scope: 'manage_pages'});
     }
     getLiveVideo();
   });
