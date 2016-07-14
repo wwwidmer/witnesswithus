@@ -2,7 +2,7 @@
 {% block scripts %}
 <script>
   var facebook_app_id = {{ facebook_app_id | tojson }};
-  var access_token, FB, video_id;
+  var access_token, FB, video_id, user;
 </script>
 
 <script src="{{ url_for('static', filename='facebook_api.js') }}"></script>
@@ -18,7 +18,11 @@
           // Login and save access_token in case its needed later
           FB.login(function(resp) {
             if (resp.authResponse) {
-                access_token = FB.getAuthResponse()['accessToken']
+                access_token = FB.getAuthResponse()['accessToken'];
+
+                FB.api('/me/', function(resp) {
+                    user = resp;
+                });
                 // Get account's pages
                 FB.api('/me/accounts', function(resp) {
                     if (resp.data.length)
@@ -29,7 +33,7 @@
                 if (page) {
                     FB.api('/{' + page.id + '}?fields=live_videos{live_views,total_views}', function(resp) {
                         for (var i = 0; i < resp.data.length; i++) {
-                            var video = resp.data[i];
+                          var video = resp.data[i];
                             if (video.timestamp > most_recent_video.timestamp) {
                                 most_recent_video = video;
                             }
