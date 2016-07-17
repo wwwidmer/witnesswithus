@@ -21,9 +21,7 @@
                 FB.api('/me/', function(resp) {
                     user = resp;
                     // Get account's pages
-                    FB.api('/'+user.id+'/permissions', function(resp){console.log(resp)});
                     FB.api('/'+user.id+'/accounts?access_token='+access_token, function(resp) {
-                        console.log(resp);
                         for (var i = 0; i < resp.data.length; i++) {
                             var page = resp.data[i];
                             var $page = $('<div>').text(page.name);
@@ -32,6 +30,8 @@
                                 // Get pages most recent live video
                                 var most_recent_video = {};
                                 FB.api('/' + page.id + '?fields=live_videos{live_views,total_views}', function(resp) {
+                                    if (!resp.data)
+                                      return;
                                     for (var i = 0; i < resp.data.length; i++) {
                                       var video = resp.data[i];
                                         if (video.timestamp > most_recent_video.timestamp) {
