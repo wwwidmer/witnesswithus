@@ -25,13 +25,16 @@
                         for (var i = 0; i < resp.data.length; i++) {
                             var page = resp.data[i];
                             var $page = $('<div>').text(page.name);
-                            $('.col-lg-6').append($page);
+                            $page.addClass('btn btn-primary');
+                            $('#pages').append($page);
                             $page.on('click', function(){
                                 // Get pages most recent live video
                                 var most_recent_video = {};
                                 FB.api('/' + page.id + '?fields=live_videos{live_views,total_views}', function(resp) {
-                                    if (!resp.data)
+                                    if (!resp.data) {
+                                      alert('Unable to find any live videos for this page.');
                                       return;
+                                    }
                                     for (var i = 0; i < resp.data.length; i++) {
                                       var video = resp.data[i];
                                         if (video.timestamp > most_recent_video.timestamp) {
@@ -40,11 +43,14 @@
                                     }
                                     // Generate link to video
                                     // /facebook/video
+                                    var $elem = $('<div>');
+                                    $elem.addClass('col-lg-6 col-md-6 col-sm-6');
                                     var url = '/facebook/' + user.id +'/' + most_recent_video.id;
                                     var a = $('<a>')[0];
                                     a.attr('href', url);
+                                    a.addClass('btn btn-large');
                                     a.text('Share this link for other witnesses.');
-                                    $('.col-lg-6').append(a);
+                                    $page.append(a);
                                 });
                             });
                         }
@@ -53,17 +59,21 @@
         }
       }, {scope: 'manage_pages'});
     }
-    getLiveVideo();
+    $('#authenticate').click(getLiveVideo);
   });
 </script>
 {% endblock %}
 {% block content %}
 
 <div class="container">
+  <div class="row"><h2>Witness With Us Facebook Live Video</h2></div>
   <div class="row">
-    <div class="col-lg-6">
+    <p><div class="btn btn-default" id="authenticate"> Click to authenticate with Facebook. </div></p>
+    <p> You will be given the choice to pick a Page that you administer. </p>
+    <p> Clicking the button for the page will grab the most recent video and display a shareable link. </p>
+  </div>
+  <div class="row" id="pages">
 
-    </div>
   </div>
 </div>
 
