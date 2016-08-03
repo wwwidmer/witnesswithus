@@ -5,10 +5,12 @@
     <title>{{ vid }}</title>
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script>
+        var facebook_app_id = {{ facebook_app_id | tojson }};
+    </script>
     <script src="{{ url_for('static', filename='facebook_api.js') }}"></script>
 
     <script type="text/javascript" >
-
         {% if url %}
         var bUrl = "{{ url }}";
         function call_api()
@@ -31,14 +33,20 @@
         {%  endif %}
 
         {% if facebook_video_id %}
-            var user_id = "{{ user_id | tojson }}";
-            var video_id = "{{ facebook_video_id | tojson }}";
+            var user_id = "{{ user_id }}";
+            var video_id = "{{ facebook_video_id }}";
+            var access_token = " {{ access_token }}"
             function call_api() {
-                FB.api('/'+ video_id +'?fields=live_views', handle_data);
+                FB.api('/'+ video_id +'?fields=live_views',
+                  {'access_token': access_token},
+                  handle_data
+                );
             }
-            function handle_data(result) {
-                var views_live = result.views_live;
-                $("#live_views").html(views_live);
+            function handle_data(resp) {
+                console.log(resp);
+                if (resp.live_videos)
+                  var views_live = resp.live_videos.data[0].live_views;
+                  $("#live_views").html(views_live);
             }
             var interval = setInterval(call_api, 5000);
         {% endif %}

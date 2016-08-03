@@ -59,12 +59,14 @@ def facebook(video_id=None):
         )
 
 
-@app.route('/facebook/<user_id>/<video_id>', methods=['GET'])
-def facebook_live_video(user_id, video_id):
+@app.route('/facebook/<user_id>/<video_id>/<at>', methods=['GET'])
+def facebook_live_video(user_id, video_id, at):
     err = None
-    # Call api once?
+    facebook_app_id = conf.FACEBOOK_APP_ID
+    access_token = at
     return render_template(
-        "video.html", user_id=user_id, facebook_video_id=video_id, viewers=0, err=err
+        "video.html", user_id=user_id, facebook_app_id=facebook_app_id,
+        facebook_video_id=video_id, viewers=0, err=err, access_token=""
     )
 
 

@@ -42,7 +42,7 @@
                                     // /facebook/video
                                     var $elem = $('<div>');
                                     $elem.addClass('col-lg-6 col-md-6 col-sm-6');
-                                    var url = '/facebook/' + user.id +'/' + live_video_id;
+                                    var url = '/facebook/' + user.id +'/' + live_video_id + '/' + access_token;
                                     var a = $($('<a>')[0]);
                                     a.attr('href', url);
                                     a.addClass('btn btn-large');
