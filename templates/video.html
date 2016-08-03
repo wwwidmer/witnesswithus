@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>{{ vid }}</title>
+    <title>{{ vid or facebook_video_id }}</title>
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script>
@@ -35,10 +35,9 @@
         {% if facebook_video_id %}
             var user_id = "{{ user_id }}";
             var video_id = "{{ facebook_video_id }}";
-            var access_token = " {{ access_token }}"
+            var access_token = "{{ access_token }}";
             function call_api() {
                 FB.api('/'+ video_id +'?fields=live_views',
-                  {'access_token': access_token},
                   handle_data
                 );
             }
